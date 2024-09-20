@@ -1,9 +1,11 @@
+""" Single only file that handles the enhanced input """
 import sys
 import time
+import platform
 from typing import Union
 from enum import Enum
 
-from colorama import just_fix_windows_console
+from colorama import just_fix_windows_console # pylint: disable=import-error
 
 
 just_fix_windows_console()
@@ -19,6 +21,7 @@ CRLF = CR + LF
 
 
 class EnhancedInputColor(Enum):
+    """ Colorama and EnhancedInput-supported color mappings """
     BLACK = "\033[30m"
     RED = "\033[31m"
     GREEN = "\033[32m"
@@ -31,15 +34,22 @@ class EnhancedInputColor(Enum):
 
 
 class EnhancedInput:
+    """ Class that handles enhanced '.input()' functionality """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self) -> None:
-        try:
-            import msvcrt
+        """ This seemed the best way to determine """
+        if 'windows' in platform.system().lower():
             self.__enhanced_input = self.__windows_input
-        except ImportError:
-            import selectors
-            import termios
+        else:
             self.__enhanced_input = self.__posix_input
+        # try:
+        #     # import msvcrt
+        #     self.__enhanced_input = self.__windows_input
+        # except ImportError:
+        #     # import selectors
+        #     # import termios
+        #     self.__enhanced_input = self.__posix_input
 
     def input(self, prompt: str = DEFAULT_PROMPT,
               timeout: float = DEFAULT_TIMEOUT,
@@ -64,7 +74,8 @@ class EnhancedInput:
 
     def __posix_input(self, prompt: str = DEFAULT_PROMPT,
                       timeout: float = DEFAULT_TIMEOUT) -> Union[str, None]:
-        import selectors, termios
+        import selectors # pylint: disable=import-outside-toplevel,import-error
+        import termios # pylint: disable=import-outside-toplevel,import-error
         self.__echo(prompt)
         sel = selectors.DefaultSelector()
         sel.register(sys.stdin, selectors.EVENT_READ)
@@ -73,14 +84,13 @@ class EnhancedInput:
         if events:
             key, _ = events[0]
             return key.fileobj.readline().rstrip(LF)
-        else:
-            self.__echo(LF)
-            termios.tcflush(sys.stdin, termios.TCIFLUSH)
-            return None
+        self.__echo(LF)
+        termios.tcflush(sys.stdin, termios.TCIFLUSH)
+        return None
 
     def __windows_input(self, prompt: str = DEFAULT_PROMPT,
                         timeout: float = DEFAULT_TIMEOUT) -> Union[str, None]:
-        import msvcrt
+        import msvcrt # pylint: disable=import-outside-toplevel,import-error
         self.__echo(prompt)
         begin = time.monotonic()
         end = begin + timeout
@@ -88,18 +98,18 @@ class EnhancedInput:
 
         while time.monotonic() < end:
             if msvcrt.kbhit():
-                c = msvcrt.getwche()
-                if c in (CR, LF):
+                char_val = msvcrt.getwche()
+                if char_val in (CR, LF):
                     self.__echo(CRLF)
                     return line
-                if c == '\003':
+                if char_val == '\003':
                     return None
-                if c == '\b':
+                if char_val == '\b':
                     line = line[:-1]
                     cover = SP * len(prompt + line + SP)
                     self.__echo(''.join([CR, cover, CR, prompt, line]))
                 else:
-                    line += c
+                    line += char_val
             time.sleep(INTERVAL)
 
         self.__echo(CRLF)

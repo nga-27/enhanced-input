@@ -26,7 +26,7 @@ VERSION = '0.1.0'
 
 # What packages are required for this module to be executed?
 REQUIRES = [
-
+    "colorama==0.4.6"
 ]
 
 REQUIRES_DEV = [

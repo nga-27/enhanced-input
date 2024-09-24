@@ -13,6 +13,9 @@ pip install '.[dev]' # install for MAC OS / zsh
 ```
 See: https://packaging.python.org/tutorials/installing-packages/#installing-setuptools-extras
 """
+import re
+import subprocess
+import platform
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -22,7 +25,7 @@ URL = 'https://github.mmm.com/nga-27/enhanced-input'
 EMAIL = 'namell91@gmail.com'
 AUTHOR = 'Nick Amell'
 REQUIRES_PYTHON = '>=3.9.0, <3.13.0'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 # What packages are required for this module to be executed?
 REQUIRES = [
@@ -32,6 +35,33 @@ REQUIRES = [
 REQUIRES_DEV = [
     "pylint==3.2.5"
 ]
+
+
+def has_ssh() -> bool:
+    result = None
+    try:
+        if 'windows' in platform.platform().lower():
+            ssh_test = subprocess.run(['where', 'ssh'])
+        else:
+            ssh_test = subprocess.run(['which', 'ssh'])
+    except Exception:
+        print("EXCEPTION: ssh not found. Attempting https...")
+        return False
+    
+    if ssh_test.returncode == 0:
+        result = subprocess.Popen(
+            ['ssh', '-Tq', 'git@github.com', '&>', '/dev/null']
+        )
+        result.communicate()
+    if not result or result.returncode == 255:
+        return False
+    return True
+
+
+def flip_ssh(requires: list) -> list:
+    if not has_ssh():
+        requires = list(map(lambda x: re.sub(r'ssh://git@', 'https://', x), requires))
+    return requires
 
 setup(
     name=NAME,

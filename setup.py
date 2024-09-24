@@ -80,9 +80,9 @@ setup(
             "test"
         ]
     ),
-    install_requires=REQUIRES,
+    install_requires=flip_ssh(REQUIRES),
     extras_require={
-        'dev': REQUIRES_DEV,
+        'dev': flip_ssh(REQUIRES_DEV),
     },
     include_package_data=True,
     license='MIT',

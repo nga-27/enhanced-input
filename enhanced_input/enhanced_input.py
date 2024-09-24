@@ -5,6 +5,7 @@ import platform
 from typing import Union
 from enum import Enum
 
+import maskpass
 from colorama import just_fix_windows_console # pylint: disable=import-error
 
 
@@ -43,22 +44,19 @@ class EnhancedInput:
             self.__enhanced_input = self.__windows_input
         else:
             self.__enhanced_input = self.__posix_input
-        # try:
-        #     # import msvcrt
-        #     self.__enhanced_input = self.__windows_input
-        # except ImportError:
-        #     # import selectors
-        #     # import termios
-        #     self.__enhanced_input = self.__posix_input
 
     def input(self, prompt: str = DEFAULT_PROMPT,
               timeout: float = DEFAULT_TIMEOUT,
-              text_color: Union[EnhancedInputColor, None] = None) -> Union[str, None]:
+              text_color: Union[EnhancedInputColor, None] = None,
+              password_mask: Union[str, None] = None) -> Union[str, None]:
         """modified "input" function. Returns None on timeout or keyboard interrupt
 
         Args:
             prompt (str, optional): string as part of prompt. Defaults to "".
             timeout (float, optional): timeout. Defaults to DEFAULT_TIMEOUT.
+            text_color (EnhancedInputColor, optional): text color. Defaults to None.
+            password_mask (str, optional): if None, will be normal input. If str (even empty
+                                            string), will do a maskpass password. Default is None. 
 
         Returns:
             Union[str, None]: str of input if within timeout, None if timeout or keyboard
@@ -66,6 +64,8 @@ class EnhancedInput:
         """
         if text_color:
             prompt = f"{text_color.value}{prompt}{EnhancedInputColor.RESET.value}"
+        if password_mask is not None:
+            return maskpass.askpass(mask=password_mask, prompt=prompt)
         return self.__enhanced_input(prompt=prompt, timeout=timeout)
 
     def __echo(self, string_val: str):

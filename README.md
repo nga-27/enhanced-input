@@ -39,4 +39,10 @@ e_input.input(">>> ", timeout=5.1)
 
 # prompt input with modified timeout and color change (cyan)
 e_input.input(">>> ", timeout=5.1, text_color=EnhancedInputColor.CYAN)
+
+# prompt input for a password (with '*' hiding password)
+e_input.input(">>>", timeout=34.0, password_mask="*")
+
+# prompt input for a password (with all characters hiding the password)
+e_input.input(">>>", timeout=34.0, password_mask="")
 ```

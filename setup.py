@@ -21,7 +21,7 @@ from setuptools import find_packages, setup
 # Package meta-data.
 NAME = 'enhanced-input'
 DESCRIPTION = 'Python "input" module enhancements, such as combining colorama and updates to johejo "inputimeout" library.'
-URL = 'https://github.mmm.com/nga-27/enhanced-input'
+URL = 'https://github.com/nga-27/enhanced-input'
 EMAIL = 'namell91@gmail.com'
 AUTHOR = 'Nick Amell'
 REQUIRES_PYTHON = '>=3.9.0, <3.13.0'

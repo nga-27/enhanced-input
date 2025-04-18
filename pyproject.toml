@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "enhanced-input"
-version = "0.2.1"
+version = "0.2.2"
 description = "Python 'input' module enhancements, such as combining colorama and updates to johejo 'inputimeout' library."
 authors = [
     {name = "Nick Amell", email = "namell91@gmail.com"}

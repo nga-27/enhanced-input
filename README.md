@@ -6,9 +6,9 @@ Python "input" module enhancements, such as combining colorama and updates to jo
 
 ###### Image created by Bing Image Creator (Dall-e 3)
 
-This repo was based off [johenjo's `inputtimeout`](https://github.com/johejo/inputimeout/tree/master) implementation. However, since that repo is a public archive, and there are other ways I want to handle timed-out inputs, I decided to create my own variation. In addition, this repo library also includes the employment of [`colorama`](https://pypi.org/project/colorama/) as optional styling. (Currently, version `0.1.0` of this library only supports text color and not background colors.)
+This repo was based off [johenjo's `inputtimeout`](https://github.com/johejo/inputimeout/tree/master) implementation. However, since that repo is a public archive, and there are other ways I want to handle timed-out inputs, I decided to create my own variation. In addition, this repo library also includes the employment of [`colorama`](https://pypi.org/project/colorama/) as optional styling. (Currently, version `0.2.1` of this library only supports text color and not background colors.)
 
-### Version `0.1.0`
+### Version `0.2.1`
 
 ---
 
@@ -19,7 +19,7 @@ This repo was based off [johenjo's `inputtimeout`](https://github.com/johejo/inp
 pip install enhanced_input@git+ssh://git@github.com/nga-27/enhanced-input.git@main
 
 # Specific version
-pip install enhanced_input@git+ssh://git@github.com/nga-27/enhanced-input.git@v0.1.0
+pip install enhanced_input@git+ssh://git@github.com/nga-27/enhanced-input.git@v0.2.1
 ```
 
 ---

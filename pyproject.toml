@@ -4,16 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "enhanced-input"
-version = "0.2.2"
+version = "0.2.3"
 description = "Python 'input' module enhancements, such as combining colorama and updates to johejo 'inputimeout' library."
 authors = [
     {name = "Nick Amell", email = "namell91@gmail.com"}
 ]
-requires-python = ">=3.9.0, <3.13.0"
+requires-python = ">=3.8.0, <3.13.0"
 license = {text = "MIT"}
 classifiers = [
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
